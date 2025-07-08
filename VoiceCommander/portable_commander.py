@@ -25,7 +25,7 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.dirname(SCRIPT_DIR)
 
 WHISPER_CPP_DIR = os.path.join(BASE_DIR, "whisper.cpp")
-WHISPER_EXECUTABLE = os.path.join(WHISPER_CPP_DIR, "build", "bin", "whisper-cli")
+WHISPER_EXECUTABLE = os.path.join(WHISPER_CPP_DIR, "whisper-cli") # Corrected path
 WHISPER_MODEL_PATH = os.path.join(WHISPER_CPP_DIR, "models", "ggml-medium.en.bin")
 HOTKEY = keyboard.Key.f8
 SAMPLERATE = 16000
@@ -92,7 +92,7 @@ class Recorder:
             controller = keyboard.Controller()
 
             # --- Voice Command Logic ---
-            if transcribed_text == "copy":
+            if transcribed_text.startswith("copy"):
                 print("Executing: Copy")
                 with controller.pressed(keyboard.Key.ctrl):
                     controller.press('c')
@@ -100,7 +100,7 @@ class Recorder:
                 with controller.pressed(keyboard.Key.ctrl, keyboard.Key.shift):
                     controller.press('c')
                     controller.release('c')
-            elif transcribed_text == "paste":
+            elif transcribed_text.startswith("paste"):
                 print("Executing: Paste")
                 with controller.pressed(keyboard.Key.ctrl):
                     controller.press('v')
@@ -108,40 +108,40 @@ class Recorder:
                 with controller.pressed(keyboard.Key.ctrl, keyboard.Key.shift):
                     controller.press('v')
                     controller.release('v')
-            elif transcribed_text == "tab":
+            elif transcribed_text.startswith("tab"):
                 print("Executing: Alt+Tab")
                 with controller.pressed(keyboard.Key.alt):
                     controller.press(keyboard.Key.tab)
                     controller.release(keyboard.Key.tab)
-            elif transcribed_text == "dash":
+            elif transcribed_text.startswith("dash"):
                 print("Executing: Alt+-")
                 with controller.pressed(keyboard.Key.alt):
                     controller.press('-')
                     controller.release('-')
-            elif transcribed_text == "switch":
+            elif transcribed_text.startswith("switch"):
                 print("Executing: Ctrl+PageDown (Next Terminal Tab)")
                 with controller.pressed(keyboard.Key.ctrl):
                     controller.press(keyboard.Key.page_down)
                     controller.release(keyboard.Key.page_down)
-            elif transcribed_text == "desktop":
+            elif transcribed_text.startswith("desktop"):
                 print("Executing: Super+D (Show Desktop)")
                 with controller.pressed(keyboard.Key.cmd): # 'cmd' is the Super/Windows key
                     controller.press('d')
                     controller.release('d')
-            elif transcribed_text == "exit":
+            elif transcribed_text.startswith("exit"):
                 print("Executing: Ctrl+D")
                 with controller.pressed(keyboard.Key.ctrl):
                     controller.press('d')
                     controller.release('d')
-            elif transcribed_text == "enter":
+            elif transcribed_text.startswith("enter"):
                 print("Executing: Enter")
                 controller.press(keyboard.Key.enter)
                 controller.release(keyboard.Key.enter)
-            elif transcribed_text == "delete":
+            elif transcribed_text.startswith("delete"):
                 print("Executing: Delete")
                 controller.press(keyboard.Key.delete)
                 controller.release(keyboard.Key.delete)
-            elif transcribed_text == "escape":
+            elif transcribed_text.startswith("escape"):
                 print("Executing: Escape")
                 controller.press(keyboard.Key.esc)
                 controller.release(keyboard.Key.esc)
