@@ -118,6 +118,21 @@ class Recorder:
                 with controller.pressed(keyboard.Key.alt):
                     controller.press('-')
                     controller.release('-')
+            elif transcribed_text == "switch":
+                print("Executing: Ctrl+PageDown (Next Terminal Tab)")
+                with controller.pressed(keyboard.Key.ctrl):
+                    controller.press(keyboard.Key.page_down)
+                    controller.release(keyboard.Key.page_down)
+            elif transcribed_text == "desktop":
+                print("Executing: Super+D (Show Desktop)")
+                with controller.pressed(keyboard.Key.cmd): # 'cmd' is the Super/Windows key
+                    controller.press('d')
+                    controller.release('d')
+            elif transcribed_text == "exit":
+                print("Executing: Ctrl+D")
+                with controller.pressed(keyboard.Key.ctrl):
+                    controller.press('d')
+                    controller.release('d')
             elif transcribed_text == "enter":
                 print("Executing: Enter")
                 controller.press(keyboard.Key.enter)
