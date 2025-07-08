@@ -83,30 +83,50 @@ class Recorder:
         command = [WHISPER_EXECUTABLE, "-m", WHISPER_MODEL_PATH, "-f", tmp_audio_path, "-nt"]
         result = subprocess.run(command, capture_output=True, text=True)
 
+        os.remove(tmp_audio_path) # Clean up immediately after use
+
         if result.returncode == 0:
-            transcribed_text = result.stdout.strip()
+            transcribed_text = result.stdout.strip().lower()
             print(f"Transcribed: {transcribed_text}")
-            pyperclip.copy(transcribed_text)
-            print("Text copied to clipboard. Pasting for all applications...")
-            
+
             controller = keyboard.Controller()
 
-            # Standard Paste (Ctrl+V)
-            with controller.pressed(keyboard.Key.ctrl):
-                controller.press('v')
-                controller.release('v')
+            # --- Voice Command Logic ---
+            if transcribed_text == "enter":
+                print("Executing: Enter")
+                controller.press(keyboard.Key.enter)
+                controller.release(keyboard.Key.enter)
+            elif transcribed_text == "tab":
+                print("Executing: Tab")
+                controller.press(keyboard.Key.tab)
+                controller.release(keyboard.Key.tab)
+            elif transcribed_text == "delete":
+                print("Executing: Delete")
+                controller.press(keyboard.Key.delete)
+                controller.release(keyboard.Key.delete)
+            elif transcribed_text == "escape":
+                print("Executing: Escape")
+                controller.press(keyboard.Key.esc)
+                controller.release(keyboard.Key.esc)
+            else:
+                # --- Default Paste Logic ---
+                pyperclip.copy(result.stdout.strip()) # Use original casing for pasting
+                print("Text copied to clipboard. Pasting...")
+                
+                # Standard Paste (Ctrl+V)
+                with controller.pressed(keyboard.Key.ctrl):
+                    controller.press('v')
+                    controller.release('v')
 
-            # Terminal Paste (Ctrl+Shift+V)
-            with controller.pressed(keyboard.Key.ctrl, keyboard.Key.shift):
-                controller.press('v')
-                controller.release('v')
-
-            print("Paste command sent.")
+                # Terminal Paste (Ctrl+Shift+V)
+                with controller.pressed(keyboard.Key.ctrl, keyboard.Key.shift):
+                    controller.press('v')
+                    controller.release('v')
+                
+                print("Paste command sent.")
         else:
             print("Whisper.cpp failed:")
             print(result.stderr)
-        
-        os.remove(tmp_audio_path)
 
 # --- HOTKEY LISTENER ---
 recorder = Recorder()
