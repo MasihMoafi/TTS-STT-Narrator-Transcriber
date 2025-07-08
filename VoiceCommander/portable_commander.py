@@ -108,7 +108,7 @@ class Recorder:
                 with controller.pressed(keyboard.Key.ctrl, keyboard.Key.shift):
                     controller.press('v')
                     controller.release('v')
-            elif transcribed_text.startswith("tab"):
+            elif transcribed_text.startswith("tab") or transcribed_text.startswith("tap"):
                 print("Executing: Alt+Tab")
                 with controller.pressed(keyboard.Key.alt):
                     controller.press(keyboard.Key.tab)
