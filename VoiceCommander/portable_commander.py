@@ -92,14 +92,36 @@ class Recorder:
             controller = keyboard.Controller()
 
             # --- Voice Command Logic ---
-            if transcribed_text == "enter":
+            if transcribed_text == "copy":
+                print("Executing: Copy")
+                with controller.pressed(keyboard.Key.ctrl):
+                    controller.press('c')
+                    controller.release('c')
+                with controller.pressed(keyboard.Key.ctrl, keyboard.Key.shift):
+                    controller.press('c')
+                    controller.release('c')
+            elif transcribed_text == "paste":
+                print("Executing: Paste")
+                with controller.pressed(keyboard.Key.ctrl):
+                    controller.press('v')
+                    controller.release('v')
+                with controller.pressed(keyboard.Key.ctrl, keyboard.Key.shift):
+                    controller.press('v')
+                    controller.release('v')
+            elif transcribed_text == "tab":
+                print("Executing: Alt+Tab")
+                with controller.pressed(keyboard.Key.alt):
+                    controller.press(keyboard.Key.tab)
+                    controller.release(keyboard.Key.tab)
+            elif transcribed_text == "dash":
+                print("Executing: Alt+-")
+                with controller.pressed(keyboard.Key.alt):
+                    controller.press('-')
+                    controller.release('-')
+            elif transcribed_text == "enter":
                 print("Executing: Enter")
                 controller.press(keyboard.Key.enter)
                 controller.release(keyboard.Key.enter)
-            elif transcribed_text == "tab":
-                print("Executing: Tab")
-                controller.press(keyboard.Key.tab)
-                controller.release(keyboard.Key.tab)
             elif transcribed_text == "delete":
                 print("Executing: Delete")
                 controller.press(keyboard.Key.delete)
@@ -112,17 +134,12 @@ class Recorder:
                 # --- Default Paste Logic ---
                 pyperclip.copy(result.stdout.strip()) # Use original casing for pasting
                 print("Text copied to clipboard. Pasting...")
-                
-                # Standard Paste (Ctrl+V)
                 with controller.pressed(keyboard.Key.ctrl):
                     controller.press('v')
                     controller.release('v')
-
-                # Terminal Paste (Ctrl+Shift+V)
                 with controller.pressed(keyboard.Key.ctrl, keyboard.Key.shift):
                     controller.press('v')
                     controller.release('v')
-                
                 print("Paste command sent.")
         else:
             print("Whisper.cpp failed:")
