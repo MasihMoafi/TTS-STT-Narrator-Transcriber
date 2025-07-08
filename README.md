@@ -61,5 +61,3 @@ streamlit run audio.py
 3.  When you are finished speaking, click **"Stop Recording"**.
 4.  The app will then transcribe the audio and display the text.
 5.  You can use the "Generate Speech" button to have the transcribed text read aloud.
-
-```
