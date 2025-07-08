@@ -73,14 +73,21 @@ class Recorder:
             transcribed_text = result.stdout.strip()
             print(f"Transcribed: {transcribed_text}")
             pyperclip.copy(transcribed_text)
-            print("Text copied to clipboard. Pasting...")
+            print("Text copied to clipboard. Pasting for all applications...")
             
-            # Simulate Ctrl+V
             controller = keyboard.Controller()
+
+            # Standard Paste (Ctrl+V)
             with controller.pressed(keyboard.Key.ctrl):
                 controller.press('v')
                 controller.release('v')
-            print("Pasted.")
+
+            # Terminal Paste (Ctrl+Shift+V)
+            with controller.pressed(keyboard.Key.ctrl, keyboard.Key.shift):
+                controller.press('v')
+                controller.release('v')
+
+            print("Paste command sent.")
         else:
             print("Whisper.cpp failed:")
             print(result.stderr)
