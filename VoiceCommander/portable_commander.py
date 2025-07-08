@@ -27,7 +27,7 @@ BASE_DIR = os.path.dirname(SCRIPT_DIR)
 WHISPER_CPP_DIR = os.path.join(BASE_DIR, "whisper.cpp")
 WHISPER_EXECUTABLE = os.path.join(WHISPER_CPP_DIR, "build", "bin", "whisper-cli")
 WHISPER_MODEL_PATH = os.path.join(WHISPER_CPP_DIR, "models", "ggml-medium.en.bin")
-HOTKEY = keyboard.Key.f9
+HOTKEY = keyboard.Key.f8
 SAMPLERATE = 16000
 
 # --- STATE MANAGEMENT ---
